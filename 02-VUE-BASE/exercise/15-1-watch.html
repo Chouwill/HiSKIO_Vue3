@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+      const { ref, reactive, watch } = Vue;
+      const App = {
+        setup() {
+          // 定義一個響應式參數 idx，初始值為 0
+          const idx = ref(0);
+
+          // 使用 watch 方法監聽 idx 的變化
+          // 當 idx 的值變化時，會調用這個函數
+          // 函數的第一個參數是新的值，第二個參數是舊的值
+          watch(idx, (newIdx, oldIdx) => {
+            console.log("new:", newIdx, "old:", oldIdx);
+          });
+
+          // 每隔 1 秒，將 idx 的值加 1
+          setInterval(() => {
+            idx.value++;
+          }, 1000);
+
+          // setup 函數不返回任何值，所以這個組件不會渲染任何內容
+          return {};
+        },
+      };
+
+      // 創建 Vue 應用並掛載到 #app 節點
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>

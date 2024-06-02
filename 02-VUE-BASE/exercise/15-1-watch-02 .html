@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script src="./js/vue.js"></script>
+    <script>
+      // 從 Vue 中解構出需要的方法
+      const { ref, reactive, watch } = Vue;
+      const App = {
+        setup() {
+          // 定義一個響應式參數 idx，初始值為 0
+          const idx = ref(0);
+
+          // 定義一個響應式物件 data，其屬性 idx 的初始值為 0
+          const data = reactive({ idx: 0 });
+
+          // 使用 watch 方法監聽 data.idx 的變化
+          // 當 data.idx 的值變化時，會調用這個函數
+          // 函數的第一個參數是新的值，第二個參數是舊的值
+          watch(
+            () => data.idx,
+            (newIdx, oldIdx) => {
+              console.log("new:", newIdx, "old:", oldIdx);
+            }
+          );
+
+          // 每隔 1 秒，將 data.idx 的值加 1
+          setInterval(() => {
+            data.idx++;
+          }, 1000);
+
+          // setup 函數不返回任何值，所以這個組件不會渲染任何內容
+          return {};
+        },
+      };
+
+      // 創建 Vue 應用並掛載到 #app 節點
+      Vue.createApp(App).mount("#app");
+
+      //ref 和 reactive 在使用 watch 進行監聽時，主要的差異在於如何指定被監聽的目標。
+
+      // ref：當你使用 ref 創建響應式數據時，你可以直接將 ref 對象作為 watch 的第一個參數。例如：
+      // reactive：當你使用 reactive 創建響應式對象時，你需要提供一個函數作為 watch 的第一個參數，該函數返回你想要監聽的對象屬性。例如：
+      // 這是因為 reactive 創建的是一個響應式對象，你可能想要監聽的是對象的某個特定屬性，而不是整個對象。所以，你需要提供一個函數來指定你想要監聽的屬性。
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkbox</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/02-Checkbox.css" />
+  </head>
+  <body>
+    <!-- 這是 Vue 應用的根元素 -->
+    <div id="app">
+      <div>
+        <!-- 使用 v-for 指令來遍歷 courseslist.tags 數組，為每個標籤創建一個列表項和一個複選框 -->
+        <ul>
+          <li v-for="item in courseslist.tags" :key="item.tag">
+            <!-- 複選框的 v-model 指令綁定到 courseslist.selectArr，這意味著當用戶選擇或取消選擇一個複選框時，courseslist.selectArr 會自動更新 -->
+            <input
+              type="checkbox"
+              :id="item.tag"
+              :value="item.tag"
+              v-model="courseslist.selectArr"
+            />
+            <!-- 顯示標籤名稱 -->
+            <label :for="item.tag">{{item.tag}}</label>
+          </li>
+        </ul>
+        <!-- 當用戶點擊 "送出" 按鈕時，會調用 handSubmit 函數 -->
+        <a class="btn" @click="handSubmit">送出</a>
+      </div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+      const { reactive } = Vue;
+      const App = {
+        setup() {
+          // 使用 Vue 的 reactive 函數來創建一個響應式對象
+          const courseslist = reactive({
+            selectArr: [], // 用 array 的方式來存儲用戶選擇的標籤
+            tags: [
+              { tag: "JavaScript" },
+              { tag: "Html" },
+              { tag: "Css" },
+              { tag: "Html5" },
+              { tag: "Vuejs" },
+              { tag: "React" },
+              { tag: "Sass" },
+              { tag: "Css3" },
+              { tag: "Canvas" },
+            ],
+          });
+          // 定義一個函數，當用戶點擊 "送出" 按鈕時，會調用這個函數
+          const handSubmit = () => {
+            // 在控制台打印出用戶選擇的所有標籤
+            console.log(courseslist.selectArr);
+          };
+          // 返回 courseslist 和 handSubmit，使它們在模板中可用
+          return { courseslist, handSubmit };
+        },
+      };
+
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
